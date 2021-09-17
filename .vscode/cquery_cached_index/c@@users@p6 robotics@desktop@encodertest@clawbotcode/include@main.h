@@ -25,6 +25,9 @@
 // This prevents multiple inclusion, which isn't bad for this file but is good practice
 #define MAIN_H_
 
+#define sensCollInt 20
+#define opContInt 20
+
 #include <API.h>
 
 
@@ -107,6 +110,3 @@ void operatorControl();
 
 
 #endif
-
-#define sensCollInt 20
-#define opContInt 20

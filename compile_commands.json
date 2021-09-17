@@ -24,10 +24,10 @@
             "-fdiagnostics-color",
             "-std=gnu99",
             "-o",
-            "C:/Users/P6ROBO~1/AppData/Local/Temp/tmpt1cffbw1/opcontrol.c.o",
+            "bin/opcontrol.c.o",
             "src\\opcontrol.c"
         ],
-        "directory": "C:\\Users\\P6 Robotics\\Desktop\\clawbotcode",
+        "directory": "C:\\Users\\P6 Robotics\\Desktop\\encoderTest\\clawbotcode",
         "file": "src\\opcontrol.c"
     },
     {
@@ -55,10 +55,10 @@
             "-fdiagnostics-color",
             "-std=gnu99",
             "-o",
-            "C:/Users/P6ROBO~1/AppData/Local/Temp/tmpt1cffbw1/auto.c.o",
+            "bin/auto.c.o",
             "src\\auto.c"
         ],
-        "directory": "C:\\Users\\P6 Robotics\\Desktop\\clawbotcode",
+        "directory": "C:\\Users\\P6 Robotics\\Desktop\\encoderTest\\clawbotcode",
         "file": "src\\auto.c"
     },
     {
@@ -86,10 +86,10 @@
             "-fdiagnostics-color",
             "-std=gnu99",
             "-o",
-            "C:/Users/P6ROBO~1/AppData/Local/Temp/tmpt1cffbw1/init.c.o",
+            "bin/init.c.o",
             "src\\init.c"
         ],
-        "directory": "C:\\Users\\P6 Robotics\\Desktop\\clawbotcode",
+        "directory": "C:\\Users\\P6 Robotics\\Desktop\\encoderTest\\clawbotcode",
         "file": "src\\init.c"
     }
 ]
