@@ -10,6 +10,8 @@
 #include "main.h"
 #include "chassis.h"
 #include "arm.h"
+#include "pid_func.h"
+#include "home.h"
 
 /*
  * Runs the user operator control code. This function will be started in its own task with the
@@ -45,6 +47,8 @@ void operatorControl() {
 	int wrist;
 	int claw;
 
+	homeElbow(encoderElbow);
+
 	while (1) {
 		power = joystickGetAnalog(1, 1);
 		turn = -joystickGetAnalog(1, 2);
@@ -63,7 +67,5 @@ void operatorControl() {
 
 		delay(opContInt);
 
-		printf("encoderShoulder: %d\n", encoderGet(encoderShoulder));
-		printf("ultrasonic: %d\n", ultrasonicGet(ultrasonic));
 	}
 }

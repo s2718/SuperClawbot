@@ -27,6 +27,9 @@
 
 #define sensCollInt 20
 #define opContInt 20
+#define limitSwitchShoulder 4
+#define limitSwitchElbow 3
+
 
 #include <API.h>
 
