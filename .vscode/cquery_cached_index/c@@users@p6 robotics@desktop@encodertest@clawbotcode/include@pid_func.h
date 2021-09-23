@@ -1,3 +1,7 @@
+
+#ifndef _PID_
+#define _PID_
+
 #include "main.h"
 
 
@@ -16,3 +20,5 @@ int pid(int last[10], int target) {
   return  (int)(-prop - deriv - integral/100);
 
 }
+
+#endif
