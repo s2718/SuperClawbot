@@ -30,6 +30,11 @@ void armMove(elbow, shoulder) {
 
 }
 
+void pidControl(int elbowTarget,int shoulderTarget, Encoder elbowEnc, Encoder shoulderEnc)
+{
+  armMove(5 * (elbowTarget - encoderGet(elbowEnc)), 15 * (shoulderTarget - encoderGet(shoulderEnc)));
+}
+
 void wristSet(wrist) {
   motorSet(3, wrist);
 }
