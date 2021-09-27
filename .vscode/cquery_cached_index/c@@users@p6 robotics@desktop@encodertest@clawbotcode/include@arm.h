@@ -6,7 +6,7 @@
 #include "limitSwitch.h"
 
 void shoulderMove(shoulder) {
-  motorSet(5, shoulder);
+  motorSet(5,- shoulder);
 }
 
 void elbowMove(elbow) {
@@ -14,14 +14,14 @@ void elbowMove(elbow) {
 }
 
 void armMove(elbow, shoulder) {
-  if(limitSwitchGetElbow()) {
+  if(limitSwitchGetElbow() && (elbow > -25)) {
     elbowMove(-50);
   }
   else {
     elbowMove(elbow);
   }
 
-  if(limitSwitchGetShoulder()) {
+  if(limitSwitchGetShoulder() && (shoulder > -10)) {
     shoulderMove(-25);
   }
   else {

@@ -6,14 +6,29 @@
 #include "limitSwitch.h"
 
 void home(Encoder encoderShoulder, Encoder encoderElbow) {
+
+///start home shoulder
+  while(limitSwitchGetShoulder() == false) {
+    armMove(0,-50);
+    delay(20);
+  }
+  encoderReset(encoderShoulder);
+
+  int offsetShoulder = 120;
+  while(encoderGet(encoderShoulder) < offsetShoulder) {
+    shoulderMove(50);
+    delay(20);
+  }
+//end home shoulder
+
 //home elbow
   while(limitSwitchGetElbow() == false) {
-    elbowMove(50);
+    armMove(50,0);
     delay(20);
   }
   encoderReset(encoderElbow);
 
-  int offsetElbow = - 60;
+  int offsetElbow = - 150;
   while(encoderGet(encoderElbow) > offsetElbow) {
     elbowMove(-50);
     delay(20);
@@ -22,20 +37,7 @@ void home(Encoder encoderShoulder, Encoder encoderElbow) {
 
 //end home elbow
 
-//start home shoulder
 
-  while(limitSwitchGetShoulder() == false) {
-    shoulderMove(-50);
-    delay(20);
-  }
-  encoderReset(encoderShoulder);
-
-  int offsetShoulder = 60;
-  while(encoderGet(encoderShoulder) < offsetShoulder) {
-    shoulderMove(50);
-    delay(20);
-  }
-//end home shoulder
 
 }
 
