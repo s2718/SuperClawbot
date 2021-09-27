@@ -5,25 +5,37 @@
 #include "arm.h"
 #include "limitSwitch.h"
 
-void homeElbow(Encoder encoder) {
-
-  for(int i = 0; i < 2; i++) {
-    elbowMove(-25);
-    delay(100);
-    while(limitSwitchGetElbow()) {
-      shoulderMove(50/(i+1));
-      delay(20/(2 * i + 1));
-    }
-  }
-
-  encoderReset(encoder);
-
-  int offset = 60;
-  while(encoderGet(encoder) < offset) {
-    elbowMove(-25);
+void home(Encoder encoderShoulder, Encoder encoderElbow) {
+//home elbow
+  while(limitSwitchGetElbow() == false) {
+    elbowMove(50);
     delay(20);
   }
+  encoderReset(encoderElbow);
 
+  int offsetElbow = - 60;
+  while(encoderGet(encoderElbow) > offsetElbow) {
+    elbowMove(-50);
+    delay(20);
+  }
+  encoderReset(encoderElbow);
+
+//end home elbow
+
+//start home shoulder
+
+  while(limitSwitchGetShoulder() == false) {
+    shoulderMove(-50);
+    delay(20);
+  }
+  encoderReset(encoderShoulder);
+
+  int offsetShoulder = 60;
+  while(encoderGet(encoderShoulder) < offsetShoulder) {
+    shoulderMove(50);
+    delay(20);
+  }
+//end home shoulder
 
 }
 

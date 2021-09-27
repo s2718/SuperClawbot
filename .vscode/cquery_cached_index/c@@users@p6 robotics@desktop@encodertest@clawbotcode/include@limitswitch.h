@@ -4,11 +4,11 @@
 #include "main.h"
 
 bool limitSwitchGetShoulder() {
-  return digitalRead(limitSwitchShoulder);
+  return ! digitalRead(limitSwitchShoulder);
 }
 
 bool limitSwitchGetElbow() {
-  return digitalRead(limitSwitchElbow);
+  return ! digitalRead(limitSwitchElbow);
 }
 
 #endif

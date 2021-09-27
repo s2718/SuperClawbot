@@ -41,11 +41,17 @@ void operatorControl() {
   Encoder encoderElbow = encoderInit(6, 7, false);
 	Ultrasonic ultrasonic = ultrasonicInit(1,2);
 
-	//homeElbow(encoderElbow);
-
+	home(encoderShoulder, encoderElbow);
+	int timeCount = 0;
 	while (1) {
+		timeCount ++;
+		// printf("limit switch shoulder: %d\n", limitSwitchGetShoulder());
+		// printf("limit switch elbow: %d\n", limitSwitchGetElbow());
 
 		joystickContol();
+		if(timeCount % 50 == 0){
+		printf("encoder %d\n",encoderGet(encoderElbow));
+	}
 	//	printf("%d",pid(encoderShoulderLast, 90));
 
 		delay(opContInt);
