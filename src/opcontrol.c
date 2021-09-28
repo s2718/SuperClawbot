@@ -47,7 +47,7 @@ void operatorControl() {
 		timeCount ++;
 		// printf("limit switch shoulder: %d\n", limitSwitchGetShoulder());
 		// printf("limit switch elbow: %d\n", limitSwitchGetElbow());
-		pidControl(-120, 120, encoderElbow, encoderShoulder);
+		pidControl(0,0, encoderElbow, encoderShoulder);
 	//	joystickContol();
 		if(timeCount % 50 == 0){
 		printf("encoder %d\n",encoderGet(encoderElbow));

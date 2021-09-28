@@ -29,6 +29,8 @@
 #define opContInt 20
 #define limitSwitchShoulder 4
 #define limitSwitchElbow 3
+#define shoulderEncGearRatio 0.6 //ratio to multiply to convert by enc ticks to joint degrees
+#define elbowEncGearRatio  0.5 //ratio to multiply to convert by enc ticks to joint degrees
 
 
 #include <API.h>
