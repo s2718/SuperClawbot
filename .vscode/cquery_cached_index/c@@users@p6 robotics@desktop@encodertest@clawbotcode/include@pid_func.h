@@ -3,7 +3,7 @@
 #define _PID_
 
 #include "main.h"
-
+#include "arm.h"
 
 int pid(int last[10], int target) {
   int s = 0;
@@ -21,5 +21,19 @@ int pid(int last[10], int target) {
 
 }
 
+void pidElbow(int elbowTarget, Encoder elbowEnc) {
+  int prop = 5 * (elbowTarget - elbowAngle(elbowEnc));
+  elbowSafetyMove(prop);
+}
+
+void pidShoulder(int shoulderTarget, Encoder shoulderEnc) {
+  shoulderSafetyMove(15 * (shoulderTarget - shoulderAngle(shoulderEnc)));
+}
+
+void pidControl(int elbowTarget,int shoulderTarget, Encoder elbowEnc, Encoder shoulderEnc)
+{
+  pidElbow(elbowTarget, elbowEnc);
+  pidShoulder(shoulderTarget, shoulderEnc);
+}
 
 #endif

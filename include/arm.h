@@ -37,19 +37,6 @@ void armMove(elbow, shoulder) {
   shoulderSafetyMove(shoulder);
 }
 
-void pidElbow(int elbowTarget, Encoder elbowEnc) {
-  elbowSafetyMove(5 * (elbowTarget - elbowAngle(elbowEnc)));
-}
-
-void pidShoulder(int shoulderTarget, Encoder shoulderEnc) {
-  shoulderSafetyMove(15 * (shoulderTarget - shoulderAngle(shoulderEnc)));
-}
-
-void pidControl(int elbowTarget,int shoulderTarget, Encoder elbowEnc, Encoder shoulderEnc)
-{
-  pidElbow(elbowTarget, elbowEnc);
-  pidShoulder(shoulderTarget, shoulderEnc);
-}
 
 void wristSet(wrist) {
   motorSet(3, wrist);

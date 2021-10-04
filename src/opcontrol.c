@@ -10,9 +10,8 @@
 #include "main.h"
 #include "chassis.h"
 #include "arm.h"
-#include "pid_func.h"
 #include "home.h"
-#include "joystickControl.h"
+#include "joystickPIDControl.h"
 
 /*
  * Runs the user operator control code. This function will be started in its own task with the
@@ -34,28 +33,10 @@
 void operatorControl() {
 
 	Encoder encoderShoulder = encoderInit(8, 9, true);
-	int encoderShoulderLast[10];
-	for(int i =0; i < 10; i++) {
-		encoderShoulderLast[i] = encoderGet(encoderShoulder);
-	}
   Encoder encoderElbow = encoderInit(6, 7, false);
 	Ultrasonic ultrasonic = ultrasonicInit(1,2);
 
 	home(encoderShoulder, encoderElbow);
-	int timeCount = 0;
-	while (1) {
-		timeCount ++;
-		// printf("limit switch shoulder: %d\n", limitSwitchGetShoulder());
-		// printf("limit switch elbow: %d\n", limitSwitchGetElbow());
-		pidControl(0,0, encoderElbow, encoderShoulder);
-	//	joystickContol();
-		if(timeCount % 50 == 0){
-		printf("encoder %d\n",encoderGet(encoderElbow));
-		}
-	//	printf("%d",pid(encoderShoulderLast, 90));
+	joystickPIDContol(encoderElbow, encoderShoulder);
 
-		delay(opContInt);
-
-
-	}
 }
