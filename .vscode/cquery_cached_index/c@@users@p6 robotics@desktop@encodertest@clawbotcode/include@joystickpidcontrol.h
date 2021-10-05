@@ -6,37 +6,15 @@
 #include "chassis.h"
 #include "arm.h"
 #include "home.h"
-
-double deriv(int last[], int delta) {
-  return ((last[0] - last[delta])/((double)delta * opContInt));
-}
-
-int pidDotProd(double pid[], int weights[]) {
-  double sum = 0;
-  for (int i = 0; i < 3; i++) {
-    sum += pid[i] * weights[i];
-  }
-  return (int)sum;
-}
-
-void calcNextVals(double pid[], double targets[], int measured, int last[], int lastLength) { //pid, targets is array {p,i,d}
-  pid[0] = (double)measured - targets[0];
-  pid[1] = 0.98 * pid[1] + 0.02 * pid[0] - targets[1]; //reimann sum weighted by geometric distribution
-  pid[2] = deriv(last, 5) - targets[2];
-
-  for (int i = 1; i < lastLength; i++) {
-    last[i] = last[i - 1];
-  }
-  last[0] = measured;
-}
+#include "pid.h"
 
 void joystickPIDContol(Encoder encoderElbow, Encoder encoderShoulder) {
   //use convention shoulder, elbow in pairs
   double elbowPID[] = {0,0,0};
-  int elbowWeights[] = {15,1,1};
+  int elbowWeights[] = {15,0,0};
 
   double shoulderPID[] = {0,0,0};
-  int shoulderWeights[] = {5,1,1};
+  int shoulderWeights[] = {5,0,0};
 
   double elbowTargets[] = {(double)elbowAngle(encoderElbow),0,0};
   double shoulderTargets[] = {(double)shoulderAngle(encoderShoulder),0,0};
@@ -46,7 +24,7 @@ void joystickPIDContol(Encoder encoderElbow, Encoder encoderShoulder) {
   int shoulderLast[numValsInt];
   int elbowLast[numValsInt];
 
-	for(int i =0; i < numValsInt; i++) {
+	for(int i = 0; i < numValsInt; i++) {
 		shoulderLast[i] = 0;
     elbowLast[i] = 0;
 	}

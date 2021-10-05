@@ -36,7 +36,7 @@ void operatorControl() {
   Encoder encoderElbow = encoderInit(6, 7, false);
 	Ultrasonic ultrasonic = ultrasonicInit(1,2);
 
-	home(encoderShoulder, encoderElbow);
+	home(encoderElbow, encoderShoulder);
 	joystickPIDContol(encoderElbow, encoderShoulder);
 
 }

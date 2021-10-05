@@ -3,7 +3,6 @@
 
 #include "main.h"
 
-
 int elbowAngle(Encoder elbowEnc) {
   return (int)(encoderGet(elbowEnc) * elbowEncGearRatio);
 }
@@ -13,3 +12,8 @@ int shoulderAngle(Encoder shoulderEnc) {
 }
 
 #endif
+
+// #ifndef _ENC_
+// #define _ENC_
+// extern int i;
+// #endif

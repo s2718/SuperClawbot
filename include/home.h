@@ -5,8 +5,9 @@
 #include "arm.h"
 #include "limitSwitch.h"
 #include "encoders.h"
+#include "terminatingPIDControl.h"
 
-void home(Encoder encoderShoulder, Encoder encoderElbow) {
+void home(Encoder encoderElbow, Encoder encoderShoulder) {
 
 ///start home shoulder
   while(limitSwitchGetShoulder() == false) {
@@ -14,29 +15,19 @@ void home(Encoder encoderShoulder, Encoder encoderElbow) {
     delay(20);
   }
   encoderReset(encoderShoulder);
+  encoderReset(encoderElbow);
 
   int offsetShoulder = 65;
-  while(shoulderAngle(encoderShoulder) < offsetShoulder  - 3) {
-    pidShoulder(offsetShoulder,encoderShoulder);
-    delay(20);
-  }
+  PIDContol(encoderElbow, encoderShoulder, 0, offsetShoulder);
   encoderReset(encoderShoulder);
 
 //end home shoulder
 
 //home elbow
-  while(limitSwitchGetElbow() == false) {
-    elbowSafetyMove(30);
-    pidShoulder(0,encoderShoulder);
-    delay(20);
-  }
+  PIDShoulderFindElbowLimit(encoderElbow, encoderShoulder, offsetShoulder);
   encoderReset(encoderElbow);
-
-  int offsetElbow = - 130;
-  while(elbowAngle(encoderElbow) > offsetElbow) {
-    pidControl(offsetElbow, 0, encoderElbow, encoderShoulder);
-    delay(20);
-  }
+  int offsetElbow = -130;
+  PIDContol(encoderElbow, encoderShoulder, offsetElbow, 0);
   encoderReset(encoderElbow);
 
 //end home elbow

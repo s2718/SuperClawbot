@@ -18,7 +18,6 @@
  * configure a UART port (usartOpen()) but cannot set up an LCD (lcdInit()).
  */
 void initializeIO() {
-
 }
 
 /*
@@ -35,7 +34,6 @@ void initializeIO() {
  * can be implemented in this task if desired.
  */
 void initialize() {
-
 
 
 
