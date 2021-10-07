@@ -42,15 +42,13 @@ void PIDContol(Encoder encoderElbow, Encoder encoderShoulder, int elbowTarget, i
   int elbowPower;
   int shoulderPower;
 
-  while((dist(elbowAngle(encoderElbow), elbowTarget) >= 2) || (dist(shoulderAngle(encoderShoulder), shoulderTarget) >= 2)) {
+  while((dist(elbowAngle(encoderElbow), elbowTarget) >= 10) || (dist(shoulderAngle(encoderShoulder), shoulderTarget) >= 10)) {
 
     calcNextVals(elbowPID, elbowTargets, elbowAngle(encoderElbow), elbowLast, numValsInt);
     calcNextVals(shoulderPID, shoulderTargets, shoulderAngle(encoderShoulder), shoulderLast, numValsInt);
 
     elbowPower = -pidDotProd(elbowPID, elbowWeights);
     shoulderPower =  -pidDotProd(shoulderPID, shoulderWeights);
-
-    printf("elbowPower:%d\n", elbowPower);
 
     armMove(elbowPower, shoulderPower);
 
@@ -60,14 +58,14 @@ void PIDContol(Encoder encoderElbow, Encoder encoderShoulder, int elbowTarget, i
 }
 
 
-void PIDShoulderFindElbowLimit(Encoder encoderElbow, Encoder encoderShoulder, int shoulderTarget) {
+void FindElbowLimit(Encoder encoderElbow, Encoder encoderShoulder) {
   //use convention shoulder, elbow in pairs
 
 
   double shoulderPID[] = {0,0,0};
   double shoulderWeights[] = {5,0,0};
 
-  double shoulderTargets[] = {(double)shoulderTarget,0,0};
+  double shoulderTargets[] = {0,0,0};
 
   int numValsInt = 50;
 
@@ -83,7 +81,7 @@ void PIDShoulderFindElbowLimit(Encoder encoderElbow, Encoder encoderShoulder, in
 
     calcNextVals(shoulderPID, shoulderTargets, shoulderAngle(encoderShoulder), shoulderLast, numValsInt);
 
-    armMove(30, 0);//-pidDotProd(shoulderPID, shoulderWeights));
+    armMove(60, pidDotProd(shoulderPID, shoulderWeights));
 
     delay(opContInt);
   }

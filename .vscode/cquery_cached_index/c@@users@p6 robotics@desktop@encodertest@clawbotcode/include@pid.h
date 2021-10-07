@@ -21,7 +21,7 @@ int pidDotProd(double pid[], double weights[]) {
 
 void calcNextVals(double pid[], double targets[], int measured, int last[], int lastLength) { //pid, targets is array {p,i,d}
   pid[0] = (double)measured - targets[0];
-  pid[1] = 0.98 * pid[1] + 0.02 * pid[0] - targets[1]; //reimann sum weighted by geometric distribution
+  pid[1] += 0.02 * (pid[0] - targets[1]); //reimann sum weighted by geometric distribution
   pid[2] = deriv(last, 5) - targets[2];
 
   for (int i = 1; i < lastLength; i++) {

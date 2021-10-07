@@ -17,16 +17,16 @@ void home(Encoder encoderElbow, Encoder encoderShoulder) {
   encoderReset(encoderShoulder);
   encoderReset(encoderElbow);
 
-  int offsetShoulder = 65;
+  int offsetShoulder = 70;
   PIDContol(encoderElbow, encoderShoulder, 0, offsetShoulder);
   encoderReset(encoderShoulder);
 
 //end home shoulder
 
 //home elbow
-  PIDShoulderFindElbowLimit(encoderElbow, encoderShoulder, offsetShoulder);
+  FindElbowLimit(encoderElbow, encoderShoulder);
   encoderReset(encoderElbow);
-  int offsetElbow = -130;
+  int offsetElbow = -125;
   PIDContol(encoderElbow, encoderShoulder, offsetElbow, 0);
   encoderReset(encoderElbow);
 
