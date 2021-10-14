@@ -25,13 +25,6 @@
 // This prevents multiple inclusion, which isn't bad for this file but is good practice
 #define MAIN_H_
 
-#define sensCollInt 20
-#define opContInt 20
-#define limitSwitchShoulder 4
-#define limitSwitchElbow 3
-#define shoulderEncGearRatio 0.6 //ratio to multiply to convert by enc ticks to joint degrees
-#define elbowEncGearRatio  0.5 //ratio to multiply to convert by enc ticks to joint degrees
-
 
 #include <API.h>
 

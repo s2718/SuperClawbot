@@ -2,6 +2,7 @@
 #define _ENCODERS_H_
 
 #include "main.h"
+#include "constants.h"
 
 int elbowAngle(Encoder elbowEnc) {
   return (int)(encoderGet(elbowEnc) * elbowEncGearRatio);

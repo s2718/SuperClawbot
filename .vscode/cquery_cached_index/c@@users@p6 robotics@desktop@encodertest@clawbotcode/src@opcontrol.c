@@ -12,6 +12,8 @@
 #include "arm.h"
 #include "home.h"
 #include "joystickPIDControl.h"
+#include "kinematics.h"
+#include "stabilizeControl.h"
 
 /*
  * Runs the user operator control code. This function will be started in its own task with the
@@ -37,6 +39,25 @@ void operatorControl() {
 	Ultrasonic ultrasonic = ultrasonicInit(1,2);
 
 	home(encoderElbow, encoderShoulder);
-	joystickPIDContol(encoderElbow, encoderShoulder);
+	int x = (int)forward_kinematic_x(elbowAngle(encoderElbow), shoulderAngle(encoderShoulder));
+	int z = (int)forward_kinematic_z(elbowAngle(encoderElbow), shoulderAngle(encoderShoulder)) + 20;
+	int i = 0;
+	int elbowTarget;
+	int shoulderTarget;
+	elbowTarget = (int)upperElbow(x,z);
+	shoulderTarget = (int)upperShoulder(x,z);
+	PIDContol(encoderElbow, encoderShoulder, 0, 0);
 
+	stabilizeControl(encoderElbow, encoderShoulder);
+	// while(true) {
+	// 	i ++;
+	// 	z += 5;
+	// 	if (i%10 == 0) {
+	// 		z -= 50;
+	// 	}
+	// 	elbowTarget = (int)upperElbow(x,z);
+	// 	shoulderTarget = (int)upperShoulder(x,z);
+	// 	PIDContol(encoderElbow, encoderShoulder, elbowTarget, shoulderTarget);
+	// 	printf("%d\n",i);
+	// }
 }

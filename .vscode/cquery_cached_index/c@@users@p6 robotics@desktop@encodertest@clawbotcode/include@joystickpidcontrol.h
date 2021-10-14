@@ -7,19 +7,16 @@
 #include "arm.h"
 #include "home.h"
 #include "pid.h"
+#include "constants.h"
 
 void joystickPIDContol(Encoder encoderElbow, Encoder encoderShoulder) {
-  //use convention shoulder, elbow in pairs
+
   double elbowPID[] = {0,0,0};
-  double elbowWeights[] = {15,0,20};
 
   double shoulderPID[] = {0,0,0};
-  double shoulderWeights[] = {5,0,20};
 
   double elbowTargets[] = {(double)elbowAngle(encoderElbow),0,0};
   double shoulderTargets[] = {(double)shoulderAngle(encoderShoulder),0,0};
-
-  int numValsInt = 50;
 
   int shoulderLast[numValsInt];
   int elbowLast[numValsInt];
@@ -42,28 +39,13 @@ void joystickPIDContol(Encoder encoderElbow, Encoder encoderShoulder) {
     wrist = 100 * (joystickGetDigital(1, 5, JOY_UP) - joystickGetDigital(1, 5, JOY_DOWN));
     claw = 100 * (joystickGetDigital(1, 6, JOY_UP) - joystickGetDigital(1, 6, JOY_DOWN));
 
-    elbowTargets[0] -= joystickGetAnalog(1, 4) * 0.01;
-    shoulderTargets[0] -= joystickGetAnalog(1, 3) * 0.01;
+    elbowTargets[0] -= joystickGetAnalog(1, 4) * 0.005;
+    shoulderTargets[0] -= joystickGetAnalog(1, 3) * 0.005;
 
-    if (elbowTargets[0] < -60) {
-      elbowTargets[0] = -60;
-    }
+    checkSafePositions(elbowTargets, shoulderTargets);
 
-    if (elbowTargets[0] > 225) {
-      elbowTargets[0] = 225;
-    }
-
-    if (elbowTargets[0] - shoulderTargets[0] > 110) {
-      elbowTargets[0] = shoulderTargets[0] + 110;
-    }
-
-    if (elbowTargets[0] - shoulderTargets[0] < -230) {
-      elbowTargets[0] = shoulderTargets[0] - 0;
-    }
-
-
-    calcNextVals(elbowPID, elbowTargets, elbowAngle(encoderElbow), elbowLast, numValsInt);
-    calcNextVals(shoulderPID, shoulderTargets, shoulderAngle(encoderShoulder), shoulderLast, numValsInt);
+    calcNextVals(elbowPID, elbowTargets, elbowAngle(encoderElbow), elbowLast);
+    calcNextVals(shoulderPID, shoulderTargets, shoulderAngle(encoderShoulder), shoulderLast);
 
     elbowPower = -pidDotProd(elbowPID, elbowWeights);
     shoulderPower =  -pidDotProd(shoulderPID, shoulderWeights);

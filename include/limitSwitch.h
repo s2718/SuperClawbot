@@ -2,6 +2,8 @@
 #define _LIMIT_SWITCH_
 
 #include "main.h"
+#include "constants.h"
+
 
 bool limitSwitchGetShoulder() {
   return ! digitalRead(limitSwitchShoulder);
