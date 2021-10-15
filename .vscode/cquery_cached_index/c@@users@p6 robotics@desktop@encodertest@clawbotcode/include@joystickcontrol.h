@@ -5,7 +5,6 @@
 #include "main.h"
 #include "chassis.h"
 #include "arm.h"
-#include "home.h"
 
 void joystickContol() {
   int power;

@@ -9,34 +9,22 @@
 #include "constants.h"
 
 void home(Encoder encoderElbow, Encoder encoderShoulder) {
-  printf("\nstarting homing shoulder\n");
+  printf("\nstarting homing\n");
 ///start home shoulder
-  while(limitSwitchGetShoulder() == false) {
-    armMove(0,-50);
+  while(limitSwitchGetShoulder() == false || limitSwitchGetElbow() == false) {
+    armMove(60,-60);
     delay(opContInt);
   }
   encoderReset(encoderShoulder);
   encoderReset(encoderElbow);
 
-  PIDContol(encoderElbow, encoderShoulder, 0, offsetShoulder);
+  PIDContol(encoderElbow, encoderShoulder, offsetElbow, offsetShoulder);
   encoderReset(encoderShoulder);
-
-//end home shoulder
-  printf("finished homing shoulder, starting elbow \n");
-//home elbow
-  FindElbowLimit(encoderElbow, encoderShoulder);
   encoderReset(encoderElbow);
 
-  printf("elbow limit found\n");
-  PIDContol(encoderElbow, encoderShoulder, offsetElbow, 0);
-  encoderReset(encoderElbow);
+  printf("finished homing\n");
 
-//end home elbow
-  printf("homing complete\n");
-  printf("shoulder: %d\n", shoulderAngle(encoderShoulder));
-  printf("elbow: %d\n", elbowAngle(encoderElbow));
-
-
+  home_complete = true;
 
 }
 

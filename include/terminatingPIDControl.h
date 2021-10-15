@@ -9,14 +9,6 @@
 #include "limitSwitch.h"
 #include "constants.h"
 
-int dist(a,b) {
-  if (a > b) {
-    return a - b;
-  }
-  else {
-    return b - a;
-  }
-}
 
 
 void PIDContol(Encoder encoderElbow, Encoder encoderShoulder, int elbowTarget, int shoulderTarget) {
@@ -31,9 +23,16 @@ void PIDContol(Encoder encoderElbow, Encoder encoderShoulder, int elbowTarget, i
   int elbowPower;
   int shoulderPower;
 
-  while((dist(elbowAngle(encoderElbow), elbowTarget) >= 10) || (dist(shoulderAngle(encoderShoulder), shoulderTarget) >= 10)) {
+  int count = 0;
 
-    checkSafePositions(elbowTargets, shoulderTargets);
+  bool first = true;
+  while(first || (abs((int)elbowPID[0]) >= 5) || (abs((int)shoulderPID[0]) >= 5)) {
+    first = false;
+    count ++;
+
+    if (home_complete) {
+        checkSafePositions(elbowTargets, shoulderTargets);
+    }  
 
     calcNextVals(elbowPID, elbowTargets, elbowAngle(encoderElbow), elbowLast);
     calcNextVals(shoulderPID, shoulderTargets, shoulderAngle(encoderShoulder), shoulderLast);
@@ -43,18 +42,27 @@ void PIDContol(Encoder encoderElbow, Encoder encoderShoulder, int elbowTarget, i
 
     armMove(elbowPower, shoulderPower);
 
-    delay(10 * opContInt);
+    if (count%100 == 0) {
+      printf("\n");
+      printf("elbowP%f\n",elbowPID[0]);
+      printf("elbowTarget%f\n",elbowTargets[0]);
+      printf("elbowAngle%d\n",elbowAngle(encoderElbow));
+      printf("\n");
+      printf("shoulderP%f\n",shoulderPID[0]);
+      printf("shoulderTarget%f\n",shoulderTargets[0]);
+      printf("shoulderAngle%d\n",shoulderAngle(encoderShoulder));
+    }
+
+
+    delay(opContInt);
   }
 
 }
 
 
 void FindElbowLimit(Encoder encoderElbow, Encoder encoderShoulder) {
-  //use convention shoulder, elbow in pairs
-
 
   double shoulderPID[] = {0,0,0};
-  double shoulderWeights[] = {5,0,0};
 
   double shoulderTargets[] = {0,0,0};
 

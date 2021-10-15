@@ -5,7 +5,6 @@
 #include "main.h"
 #include "chassis.h"
 #include "arm.h"
-#include "home.h"
 #include "pid.h"
 #include "constants.h"
 

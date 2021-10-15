@@ -15,15 +15,17 @@
 #define elbowEncGearRatio  0.5 //ratio to multiply to convert by enc ticks to joint degrees
 
 #define offsetShoulder 70
-#define offsetElbow -125
+#define offsetElbow -92
 
 #ifndef CONSTANTS
 #define CONSTANTS
 
-double elbowWeights[] = {30,0,0};
-double shoulderWeights[] = {30,0,0};
+double elbowWeights[] = {10,0,0};
+double shoulderWeights[] = {10,0,30};
 
 int shoulderLast[numValsInt] = {0};
 int elbowLast[numValsInt] = {0};
+
+bool home_complete = false;
 
 #endif

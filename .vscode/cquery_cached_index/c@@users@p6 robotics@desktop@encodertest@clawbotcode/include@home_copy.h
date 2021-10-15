@@ -18,11 +18,11 @@ void home(Encoder encoderElbow, Encoder encoderShoulder) {
   encoderReset(encoderShoulder);
   encoderReset(encoderElbow);
 
-  PIDContol(encoderElbow, encoderShoulder, offsetElbow, offsetShoulder);
+  PIDContol(encoderElbow, encoderShoulder, -120, offsetShoulder);
   encoderReset(encoderShoulder);
   encoderReset(encoderElbow);
 
-  printf("finished homing\n");
+  printf("finished homing");
 
   home_complete = true;
 

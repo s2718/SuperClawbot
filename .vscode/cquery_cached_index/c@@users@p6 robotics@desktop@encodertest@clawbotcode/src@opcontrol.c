@@ -39,15 +39,16 @@ void operatorControl() {
 	Ultrasonic ultrasonic = ultrasonicInit(1,2);
 
 	home(encoderElbow, encoderShoulder);
-	int x = (int)forward_kinematic_x(elbowAngle(encoderElbow), shoulderAngle(encoderShoulder));
-	int z = (int)forward_kinematic_z(elbowAngle(encoderElbow), shoulderAngle(encoderShoulder)) + 20;
-	int i = 0;
-	int elbowTarget;
-	int shoulderTarget;
-	elbowTarget = (int)upperElbow(x,z);
-	shoulderTarget = (int)upperShoulder(x,z);
-	PIDContol(encoderElbow, encoderShoulder, 0, 0);
+	int x = (int)L1;
+	int z = (int)L2;
 
+	int i = 0;
+	// printf("elbow%d\n",(int)upperElbow(x,z) );
+	// printf("shoulder%d\n",(int)upperShoulder(x,z) );
+	printf("started PID\n");
+
+	PIDContol(encoderElbow, encoderShoulder,90,0);// (int)upperElbow(x,z), (int)upperShoulder(x,z));
+	printf("finished PID\n");
 	stabilizeControl(encoderElbow, encoderShoulder);
 	// while(true) {
 	// 	i ++;
