@@ -24,7 +24,7 @@ void home_unused(Encoder encoderElbow, Encoder encoderShoulder) {
 //end home shoulder
   printf("finished homing shoulder, starting elbow \n");
 //home elbow
-  FindElbowLimit(encoderElbow, encoderShoulder);
+  // FindElbowLimit(encoderElbow, encoderShoulder);
   encoderReset(encoderElbow);
 
   printf("elbow limit found\n");
@@ -33,8 +33,8 @@ void home_unused(Encoder encoderElbow, Encoder encoderShoulder) {
 
 //end home elbow
   printf("homing complete\n");
-  printf("shoulder: %d\n", shoulderAngle(encoderShoulder));
-  printf("elbow: %d\n", elbowAngle(encoderElbow));
+  printf("shoulder: %f\n", shoulderAngle(encoderShoulder));
+  printf("elbow: %f\n", elbowAngle(encoderElbow));
 
   home_complete = true;
 

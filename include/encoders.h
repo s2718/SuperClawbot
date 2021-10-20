@@ -4,12 +4,12 @@
 #include "main.h"
 #include "constants.h"
 
-int elbowAngle(Encoder elbowEnc) {
-  return (int)(encoderGet(elbowEnc) * elbowEncGearRatio);
+double elbowAngle(Encoder elbowEnc) {
+  return (double)(encoderGet(elbowEnc) * elbowEncGearRatio);
 }
 
-int shoulderAngle(Encoder shoulderEnc) {
-  return (int)(encoderGet(shoulderEnc) * shoulderEncGearRatio);
+double shoulderAngle(Encoder shoulderEnc) {
+  return (double)(encoderGet(shoulderEnc) * shoulderEncGearRatio);
 }
 
 #endif

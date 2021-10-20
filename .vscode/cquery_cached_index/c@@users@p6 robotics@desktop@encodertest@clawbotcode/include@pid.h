@@ -8,7 +8,7 @@
 #include "constants.h"
 
 
-double deriv(int last[], int delta) {
+double deriv(double last[], int delta) {
   return ((last[0] - last[delta])/((double)delta * opContInt));
 }
 
@@ -20,15 +20,25 @@ int pidDotProd(double pid[], double weights[]) {
   return (int)sum;
 }
 
-void calcNextVals(double pid[], double targets[], int measured, int last[]) { //pid, targets is array {p,i,d}
+void calcNextVals(double pid[], double targets[], double measured, double last[]) { //pid, targets is array {p,i,d}
   pid[0] = (double)measured - targets[0];
-  pid[1] += 0.02 * (pid[0] - targets[1]); //reimann sum weighted by geometric distribution
+  pid[1] += 0.02 * (pid[0] - targets[1]);
   pid[2] = deriv(last, 5) - targets[2];
 
   for (int i = 1; i < numValsInt; i++) {
     last[i] = last[i - 1];
   }
   last[0] = measured;
+}
+
+void calcNextTargetVals(double targets[], double newTarget, double last[]) { //pid, targets is array {p,i,d}
+  targets[0] = newTarget;
+  targets[2] = deriv(last, 5);
+
+  for (int i = 1; i < numValsInt; i++) {
+    last[i] = last[i - 1];
+  }
+  last[0] = newTarget;
 }
 
 void checkSafePositions(double elbowTargets[], double shoulderTargets[]) {

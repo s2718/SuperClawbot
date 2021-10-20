@@ -17,8 +17,6 @@ void joystickPIDContol(Encoder encoderElbow, Encoder encoderShoulder) {
   double elbowTargets[] = {(double)elbowAngle(encoderElbow),0,0};
   double shoulderTargets[] = {(double)shoulderAngle(encoderShoulder),0,0};
 
-  int shoulderLast[numValsInt];
-  int elbowLast[numValsInt];
 
 	for(int i = 0; i < numValsInt; i++) {
 		shoulderLast[i] = 0;

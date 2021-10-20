@@ -23,8 +23,8 @@
 double elbowWeights[] = {10,0,0};
 double shoulderWeights[] = {10,0,30};
 
-int shoulderLast[numValsInt] = {0};
-int elbowLast[numValsInt] = {0};
+double shoulderLast[numValsInt] = {0};
+double elbowLast[numValsInt] = {0};
 
 bool home_complete = false;
 
