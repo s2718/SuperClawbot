@@ -40,7 +40,7 @@ void operatorControl() {
 	Ultrasonic ultrasonic = ultrasonicInit(1,2);
 
 	home(encoderElbow, encoderShoulder);
-	int x = (int)L1;
+	int x = (int)L1-10;
 	int z = (int)L2-10;
 
 	// printf("elbow%d\n",(int)upperElbow(x,z) );
@@ -48,20 +48,21 @@ void operatorControl() {
 	printf("started PID\n");
 	for (int i = 0; i < 30; i+= 1){
 
+	x++;
 	printf("x : %d: ", x);
-	printf("x_calc : %f: ", forward_kinematic_x((int)upperElbow(x,z + i), (int)upperShoulder(x,z + i)));
-	printf("x diff : %f", x - forward_kinematic_x((int)upperElbow(x,z + i), (int)upperShoulder(x,z + i)));
+	printf("x_calc : %f: ", forward_kinematic_x((int)upperElbow(x,z ), (int)upperShoulder(x,z )));
+	printf("x diff : %f", x - forward_kinematic_x((int)upperElbow(x,z ), (int)upperShoulder(x,z )));
 	printf("\n");
-	printf("z : %d: ", z+i);
-	printf("z_calc : %f: ", forward_kinematic_z((int)upperElbow(x,z + i), (int)upperShoulder(x,z + i)));
-	printf("z diff : %f", z + i - forward_kinematic_z((int)upperElbow(x,z + i), (int)upperShoulder(x,z + i)));
+	printf("z : %d: ", z);
+	printf("z_calc : %f: ", forward_kinematic_z((int)upperElbow(x,z ), (int)upperShoulder(x,z )));
+	printf("z diff : %f", z - forward_kinematic_z((int)upperElbow(x,z ), (int)upperShoulder(x,z )));
 
 	printf("\n\n");
 
 
 
-	PIDContol(encoderElbow, encoderShoulder, (int)upperElbow(x,z + i), (int)upperShoulder(x,z + i));
-	stabilizeControl(encoderElbow, encoderShoulder, 10);
+	PIDContol(encoderElbow, encoderShoulder, (int)upperElbow(x,z ), (int)upperShoulder(x,z ));
+	stabilizeControl(encoderElbow, encoderShoulder, 5);
 
 	}
 	printf("finished PID\n");
