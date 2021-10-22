@@ -8,7 +8,7 @@
 #include "pid.h"
 #include "constants.h"
 
-void stabilizeControl(Encoder encoderElbow, Encoder encoderShoulder) {
+void stabilizeControl(Encoder encoderElbow, Encoder encoderShoulder, int stopTime) {
   //use convention shoulder, elbow in pairs
   double elbowPID[] = {0,0,0};
 
@@ -25,9 +25,11 @@ void stabilizeControl(Encoder encoderElbow, Encoder encoderShoulder) {
   int elbowPower;
   int shoulderPower;
 
-  while (true) {
+  int count = 0;
 
-    checkSafePositions(elbowTargets, shoulderTargets);
+  while (stopTime < 0 || count < stopTime) {
+    
+    //checkSafePositions(elbowTargets, shoulderTargets);
 
     calcNextVals(elbowPID, elbowTargets, elbowAngle(encoderElbow), elbowLast);
     calcNextVals(shoulderPID, shoulderTargets, shoulderAngle(encoderShoulder), shoulderLast);
@@ -36,6 +38,18 @@ void stabilizeControl(Encoder encoderElbow, Encoder encoderShoulder) {
     shoulderPower =  -pidDotProd(shoulderPID, shoulderWeights);
 
     armMove(elbowPower, shoulderPower);
+
+    count++;
+    if (count%100 == 0) {
+      printf("\n");
+      printf("elbowP%f\n",elbowPID[0]);
+      printf("elbowTarget%f\n",elbowTargets[0]);
+      printf("elbowAngle%f\n",elbowAngle(encoderElbow));
+      printf("\n");
+      printf("shoulderP%f\n",shoulderPID[0]);
+      printf("shoulderTarget%f\n",shoulderTargets[0]);
+      printf("shoulderAngle%f\fn",shoulderAngle(encoderShoulder));
+    }
 
     delay(opContInt);
   }

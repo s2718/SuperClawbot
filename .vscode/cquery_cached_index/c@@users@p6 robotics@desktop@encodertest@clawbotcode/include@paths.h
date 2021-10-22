@@ -17,11 +17,16 @@ double shoulderTargetsLast[numValsInt] = {0};
 double elbowTargetsLast[numValsInt] = {0};
 
 double x_func(double time) {
-  return L1 + 2 * time - 10;
+  if (time < 10) {
+      return L1 + 2 * time ;
+  }
+  else {
+    return 0;
+  }
 }
 
 double z_func(double time) {
-  return L2/2;
+  return L2;
 }
 
 
@@ -30,8 +35,6 @@ void PIDPathContol(Encoder encoderElbow, Encoder encoderShoulder) {
   double elbowPID[] = {0,0,0};
 
   double shoulderPID[] = {0,0,0};
-
-
 
   int elbowPower;
   int shoulderPower;
@@ -46,15 +49,18 @@ void PIDPathContol(Encoder encoderElbow, Encoder encoderShoulder) {
 
   x = x_func(time);
   z = z_func(time);
+  printf("x: %f\n",x);
+  printf("z: %f\n",z);
+
 
   newElbowTarget = upperElbow(x,z);
   newShoulderTarget = upperShoulder(x,z);
+
 
   double elbowTargets[] = {(double)newElbowTarget,0,0};
   double shoulderTargets[] = {(double)newShoulderTarget,0,0};
 
   for (int step = 0; step < duration; step ++) {
-    count ++;
 
     if (home_complete) {
         checkSafePositions(elbowTargets, shoulderTargets);
@@ -63,10 +69,24 @@ void PIDPathContol(Encoder encoderElbow, Encoder encoderShoulder) {
     calcNextVals(elbowPID, elbowTargets, elbowAngle(encoderElbow), elbowLast);
     calcNextVals(shoulderPID, shoulderTargets, shoulderAngle(encoderShoulder), shoulderLast);
 
-    time = step * opContInt/1000.0;
+    time = (double)step * opContInt/1000.0;
 
     x = x_func(time);
     z = z_func(time);
+
+    if (step%100 == 0) {
+    printf("x: %f\n",x);
+    printf("z: %f\n",z);
+    printf("\n");
+    printf("elbowP: %f\n",elbowPID[0]);
+    printf("elbowTarget: %f\n",elbowTargets[0]);
+    printf("elbowAngle: %f\n",elbowAngle(encoderElbow));
+    printf("\n");
+    printf("shoulderP: %f\n",shoulderPID[0]);
+    printf("shoulderTarget: %f\n",shoulderTargets[0]);
+    printf("shoulderAngle: %f\n",shoulderAngle(encoderShoulder));
+
+    }
 
     newElbowTarget = upperElbow(x,z);
     newShoulderTarget = upperShoulder(x,z);
@@ -80,16 +100,6 @@ void PIDPathContol(Encoder encoderElbow, Encoder encoderShoulder) {
 
     armMove(elbowPower, shoulderPower);
 
-    if (count%100 == 0) {
-      printf("\n");
-      printf("elbowP%f\n",elbowPID[0]);
-      printf("elbowTarget%f\n",elbowTargets[0]);
-      printf("elbowAngle%f\n",elbowAngle(encoderElbow));
-      printf("\n");
-      printf("shoulderP%f\n",shoulderPID[0]);
-      printf("shoulderTarget%f\n",shoulderTargets[0]);
-      printf("shoulderAngle%f\n",shoulderAngle(encoderShoulder));
-    }
 
 
     delay(opContInt);

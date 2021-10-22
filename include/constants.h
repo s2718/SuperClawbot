@@ -1,7 +1,7 @@
 #include "main.h"
 
 #define L1 26.5 //link 1 (shoulder) centimeters
-#define L2 36.0
+#define L2 33.5
 #define PI 3.1416
 #define numValsInt 50
 

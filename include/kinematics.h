@@ -33,17 +33,17 @@ double upperShoulder(x,z) {
     return (180/PI) * reverse_kinematic_theta_shoulder_upper(x,z);
   }
   else {
-    printf("incorrect x,z values, returning 0");
+  //  printf("incorrect x,z values, returning 0");
     return 0;
   }
 }
 
 double upperElbow(x,z) {
   if (x*x+z*z <= pow(L1 + L2,2)) {
-    return (180/PI) * reverse_kinematic_theta_elbow_upper(x,z) + reverse_kinematic_theta_shoulder_upper(x,z);
+    return (180/PI) * reverse_kinematic_theta_elbow_upper(x,z) + (180/PI) * reverse_kinematic_theta_shoulder_upper(x,z);
   }
   else {
-    printf("incorrect x,z values, returning 0");
+  //  printf("incorrect x,z values, returning 0");
     return 0;
   }
 }
