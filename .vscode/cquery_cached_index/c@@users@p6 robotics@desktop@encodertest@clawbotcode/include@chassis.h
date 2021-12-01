@@ -6,7 +6,7 @@
 
 void chassisSet(power, turn) {
   motorSet(8, power - turn);
-  motorSet(9, power + turn);
+  motorSet(9, -power + turn);
 }
 
 
