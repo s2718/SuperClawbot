@@ -3,6 +3,12 @@
 #define L1 26.5 //link 1 (shoulder) centimeters
 #define L2 33.5
 #define PI 3.1416
+
+#define LEFT 1
+#define MIDDLE 2
+#define RIGHT 3
+
+
 #define numValsInt 50
 
 #define sensCollInt 20

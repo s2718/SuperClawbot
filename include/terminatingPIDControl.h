@@ -50,7 +50,7 @@ void PIDContol(Encoder encoderElbow, Encoder encoderShoulder, int elbowTarget, i
       printf("\n");
       printf("shoulderP%f\n",shoulderPID[0]);
       printf("shoulderTarget%f\n",shoulderTargets[0]);
-      printf("shoulderAngle%f\fn",shoulderAngle(encoderShoulder));
+      printf("shoulderAngle%f\n",shoulderAngle(encoderShoulder));
     }
 
 

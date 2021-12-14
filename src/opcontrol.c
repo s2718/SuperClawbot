@@ -15,7 +15,9 @@
 #include "kinematics.h"
 #include "stabilizeControl.h"
 #include "paths.h"
+#include "pathFollower.h"
 #include "lineFollower.h"
+#include "usefulFunctions.h"
 
 
 
@@ -42,53 +44,84 @@ void operatorControl() {
   Encoder encoderElbow = encoderInit(6, 7, false);
 	Ultrasonic ultrasonic = ultrasonicInit(1,2);
 
+	for (int i = 1; i < 4; i++) {
+		analogCalibrate(i);
+	}
 
+	stabilizeControl(encoderElbow, encoderShoulder, -1);
 
 	home(encoderElbow, encoderShoulder);
 
-	lineFollower(encoderElbow, encoderShoulder, ultrasonic);
+	stabilizeControl(encoderElbow, encoderShoulder, -1);
 
-	while (true) {
-		int elbowTarget;
-		int shoulderTarget;
+	int x = (int)L1;
+	int z = (int)L2-10;
 
-		printf("pick new elbow and shoulder values\n" );
-		// scanf("%d %d", &elbowTarget, &shoulderTarget);
+	printf("started PID\n");
+	for (int i = 0; i < 24; i+= 1){
 
-		PIDContol(encoderElbow, encoderShoulder, elbowTarget, shoulderTarget);
-		stabilizeControl(encoderElbow, encoderShoulder, 10);
+		z++;
+		printf("x : %d: ", x);
+		printf("x_calc : %f: ", forward_kinematic_x((int)upperElbow(x,z ), (int)upperShoulder(x,z )));
+		printf("x diff : %f", x - forward_kinematic_x((int)upperElbow(x,z ), (int)upperShoulder(x,z )));
+		printf("\n");
+		printf("z : %d: ", z);
+		printf("z_calc : %f: ", forward_kinematic_z((int)upperElbow(x,z ), (int)upperShoulder(x,z )));
+		printf("z diff : %f", z - forward_kinematic_z((int)upperElbow(x,z ), (int)upperShoulder(x,z )));
+
+		printf("\n\n");
+
+
+
+		PIDContol(encoderElbow, encoderShoulder, (int)upperElbow(x,z), (int)upperShoulder(x,z));
+		stabilizeControl(encoderElbow, encoderShoulder, 2);
 
 	}
+	printf("finished PID\n");
 
-	//
-	// int x = (int)L1;
-	// int z = (int)L2-10;
-	//
-	// // printf("elbow%d\n",(int)upperElbow(x,z) );
-	// // printf("shoulder%d\n",(int)upperShoulder(x,z) );
-	// printf("started PID\n");
-	// for (int i = 0; i < 24; i+= 1){
-	//
-	// z++;
-	// printf("x : %d: ", x);
-	// printf("x_calc : %f: ", forward_kinematic_x((int)upperElbow(x,z ), (int)upperShoulder(x,z )));
-	// printf("x diff : %f", x - forward_kinematic_x((int)upperElbow(x,z ), (int)upperShoulder(x,z )));
-	// printf("\n");
-	// printf("z : %d: ", z);
-	// printf("z_calc : %f: ", forward_kinematic_z((int)upperElbow(x,z ), (int)upperShoulder(x,z )));
-	// printf("z diff : %f", z - forward_kinematic_z((int)upperElbow(x,z ), (int)upperShoulder(x,z )));
-	//
-	// printf("\n\n");
-	//
-	//
-	//
-	// PIDContol(encoderElbow, encoderShoulder, (int)upperElbow(x,z), (int)upperShoulder(x,z));
-	// stabilizeControl(encoderElbow, encoderShoulder, 2);
-	//
-	// }
-	// printf("finished PID\n");
-	// stabilizeControl(encoderElbow, encoderShoulder, -1);
+	stabilizeControl(encoderElbow, encoderShoulder, -1);
 
+	ultrasonicFollower(encoderElbow, encoderShoulder, ultrasonic);
+
+	delay(1000);
+
+	lineFollower();
+
+	delay(1000);
+	
+	joystickPIDContol(encoderElbow, encoderShoulder);
+
+	stabilizeControl(encoderElbow, encoderShoulder, -1);
+
+
+
+// double timeSearching = 0;
+// double turn;
+//
+//
+// while (1) {
+//
+//
+// 		turn = min(0.0001 * timeSearching * sin(5 * timeSearching * M_PI/180), 20);
+// 		timeSearching += 1;
+// 		chassisSet(0, turn);
+// 		delay(20);
+//
+//
+// }
+
+//
+// while (true) {
+// 	int elbowTarget;
+// 	int shoulderTarget;
+//
+// 	printf("pick new elbow and shoulder values\n" );
+// 	// scanf("%d %d", &elbowTarget, &shoulderTarget);
+//
+// 	PIDContol(encoderElbow, encoderShoulder, elbowTarget, shoulderTarget);
+// 	stabilizeControl(encoderElbow, encoderShoulder, 10);
+//
+// }
 
 	// // while(true) {
 	// // 	i ++;

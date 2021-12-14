@@ -7,6 +7,7 @@
 #include "arm.h"
 #include "pid.h"
 #include "constants.h"
+#include "usefulFunctions.h"
 
 void stabilizeControl(Encoder encoderElbow, Encoder encoderShoulder, int stopTime) {
   //use convention shoulder, elbow in pairs
@@ -27,8 +28,8 @@ void stabilizeControl(Encoder encoderElbow, Encoder encoderShoulder, int stopTim
 
   int count = 0;
 
-  while (stopTime < 0 || count < stopTime) {
-    
+  while ((stopTime < 0 || count < stopTime) && !nextButton()) {
+
     //checkSafePositions(elbowTargets, shoulderTargets);
 
     calcNextVals(elbowPID, elbowTargets, elbowAngle(encoderElbow), elbowLast);

@@ -7,6 +7,8 @@
 #include "arm.h"
 #include "pid.h"
 #include "constants.h"
+#include "usefulFunctions.h"
+
 
 void joystickPIDContol(Encoder encoderElbow, Encoder encoderShoulder) {
 
@@ -30,7 +32,8 @@ void joystickPIDContol(Encoder encoderElbow, Encoder encoderShoulder) {
   int elbowPower;
   int shoulderPower;
 
-  while (true) {
+  while (!nextButton()) {
+
     power = joystickGetAnalog(1, 1);
     turn = -joystickGetAnalog(1, 2);
     wrist = 100 * (joystickGetDigital(1, 5, JOY_UP) - joystickGetDigital(1, 5, JOY_DOWN));
